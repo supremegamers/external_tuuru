@@ -1,0 +1,7 @@
+bootstrap_go_package {
+    name: "soong-xos",
+    pkgPath: "xos/soong/android",
+    srcs: [
+        "android/variable.go",
+    ],
+}
