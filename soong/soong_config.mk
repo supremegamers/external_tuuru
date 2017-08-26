@@ -8,4 +8,5 @@ xos_soong:
 	echo '    "QTIAudioPath":  "$(call project-path-for,qcom-audio)",'; \
 	echo '    "QTIDisplayPath":  "$(call project-path-for,qcom-display)",'; \
 	echo '    "QTIMediaPath":  "$(call project-path-for,qcom-media)",';  \
+	echo '    "Mtk_hardware": $(if $(filter true,$(BOARD_USES_MTK_HARDWARE)),true,false),'; \
 	echo '') > $(SOONG_VARIABLES_TMP)
