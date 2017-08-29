@@ -16,12 +16,6 @@
 #ifndef _HEALTHD_BOARD_XOS_
 #define _HEALTHD_BOARD_XOS_
 
-#ifdef WITH_XOS_CHARGER
 extern void healthd_board_mode_charger_set_backlight(bool on);
-#else
-void healthd_board_mode_charger_set_backlight(bool) {
-    // Stub
-}
-#endif
 
 #endif

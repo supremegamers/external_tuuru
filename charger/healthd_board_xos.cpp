@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2016 The CyanogenMod Project
  *               2017 The LineageOS Project
+ * Copyright (C) 2017 The halogenOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+#ifndef WITH_XOS_CHARGER
+void healthd_board_mode_charger_set_backlight(bool) {
+    // Stub
+}
+#else
 
 #include <errno.h>
 #include <fcntl.h>
@@ -429,3 +436,5 @@ void healthd_board_mode_charger_init(void)
     }
 
 }
+
+#endif
