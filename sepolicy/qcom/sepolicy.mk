@@ -4,4 +4,5 @@
 #
 
 BOARD_SEPOLICY_DIRS += \
-    external/xos/sepolicy/qcom/
+    external/xos/sepolicy/qcom/common \
+    external/xos/sepolicy/qcom/$(TARGET_BOARD_PLATFORM)
