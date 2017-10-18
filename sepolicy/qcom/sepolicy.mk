@@ -1,7 +1,7 @@
 #
 # This policy configuration will be used by all qcom products
-# that inherit from Lineage
+# that inherit from halogenOS
 #
 
 BOARD_SEPOLICY_DIRS += \
-    device/gzosp/sepolicy/qcom
+    external/xos/sepolicy/qcom/

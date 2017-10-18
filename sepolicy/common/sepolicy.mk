@@ -1,7 +1,7 @@
 #
 # This policy configuration will be used by all products that
-# inherit from Lineage
+# inherit from halogenOS
 #
 
 BOARD_SEPOLICY_DIRS += \
-    device/gzosp/sepolicy/common
+    external/xos/sepolicy/common
