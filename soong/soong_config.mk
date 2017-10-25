@@ -11,4 +11,5 @@ xos_soong:
 	echo '    "Mtk_hardware": $(if $(filter true,$(BOARD_USES_MTK_HARDWARE)),true,false),'; \
 	echo '    "BoardUsesQTIHardware":  $(if $(BOARD_USES_QTI_HARDWARE),true,false),';  \
 	echo '    "Libart_img_base": "$(LIBART_IMG_BASE)",'; \
+	echo '    "Cant_reallocate_omx_buffers":  $(if $(filter omap4,$(TARGET_BOARD_PLATFORM)),true,false),';  \
 	echo '') > $(SOONG_VARIABLES_TMP)
