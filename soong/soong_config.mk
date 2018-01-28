@@ -16,5 +16,6 @@ xos_soong:
 	echo '    "Qcom_bsp_legacy":  $(if $(filter msm7x27a msm7x30 msm8660 msm8960,$(TARGET_BOARD_PLATFORM)),true,false),';  \
 	echo '    "Qti_flac_decoder":  $(if $(strip $(AUDIO_FEATURE_ENABLED_EXTN_FLAC_DECODER)),true,false),';  \
 	echo '    "Use_legacy_rescaling":  $(if $(strip $(TARGET_OMX_LEGACY_RESCALING)),true,false)';  \
+	echo '    "Uses_qti_camera_device":  $(if $(strip $(TARGET_USES_QTI_CAMERA_DEVICE)),true,false)';  \
 	echo '},'; \
 	echo '') > $(SOONG_VARIABLES_TMP)
