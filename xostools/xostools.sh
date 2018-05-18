@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Copyright (C) 2016-2017 The halogenOS Project
+# Copyright (C) 2016-2018 The halogenOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -73,7 +73,12 @@ source $(gettop)/external/xos/xostools/xostoolshelp.sh
 # Handle the kitchen and automatically eat lunch if hungry
 function lunchauto() {
     echo "Eating breakfast..."
-    breakfast $(echo -n "${1/XOS_/}" | cut -d '-' -f1)
+    local devicename_extracted=$(echo -n "${1/XOS_/}" | cut -d '-' -f1)
+    breakfast $devicename_extracted || :
+    if ! find device -name $devicename_extracted -type d \
+                     -mindepth 2 -maxdepth 2 2>&1 >/dev/null; then
+      return 1
+    fi
     echo "Lunching..."
     lunch $@
     JACK
@@ -233,7 +238,7 @@ function reporesync() {
             if [[ ! -z "$ZSH_NAME" ]]; then # In use shell is zsh
                 read -k 1 -r "?Do you want to continue? [y\N] : "
             else
-                # Shell isnt zsh, so assume bash syntax.
+                # Shell isn't zsh, so assume bash syntax.
                 read -p "Do you want to continue? [y\N] : " \
                      -n 1 -r
             fi
@@ -247,7 +252,7 @@ function reporesync() {
             echo  "Your current directory is: $(pwd)"
             # ... read the printed lines so you know what's going on.
             echon "If you think that the current directory is wrong, you will "
-            echo  "have now time to safely abort this process using CTRL+C."
+            echo  "now have time to safely abort this process using CTRL+C."
             echoen "\n"
             echon  "Waiting for interruption..."
             # Wait 4 lovely seconds which can save your life
@@ -264,10 +269,10 @@ function reporesync() {
             for ff in *; do
                 case "$ff" in
                   "." | ".." | ".repo");;
-                    *)
-                        echo -en "\rRemoving $ff\033[K"
-                        rm -rf "$ff"
-                    ;;
+                  *)
+                      echo -en "\rRemoving $ff\033[K"
+                      rm -rf "$ff"
+                  ;;
                 esac
             done
             echo -en "\n"
