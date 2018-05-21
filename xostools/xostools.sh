@@ -298,12 +298,78 @@ function reporesync() {
     cd $FRSTDIR
 }
 
+function strtrim() {
+  sed -e 's/^ *//g' -e 's/ *$//g'
+}
+
+function strsplit() {
+  cut -d "$1" -f$2
+}
+
+function splitix_and_trim() {
+  local ix=$1
+  local split="$2"
+  shift 2
+  echo "$@" | strsplit "$split" $ix | strtrim
+}
+
+# Resets all repositories to their corresponding remote state
+# as defined in the manifest
 function reporeset() {
-  repo forall -c 'git cherry-pick --abort; git revert --abort; git rebase --abort; git reset --hard XOS/XOS-8.1 || git reset --hard github/XOS-8.1 || git reset --hard' 2>/dev/null
+  echo 'Resetting source tree back to remote state.' \
+       'Any unsaved work will be gone.'
+  resetmanifest
+
+  repomanifest=$(repo manifest)
+  function repomanifest() {
+    cat <<EOF
+$repomanifest
+EOF
+  }
+
+  while read line; do
+    local repodir=$(splitix_and_trim 1 ':' "$line")
+    local reponame=$(splitix_and_trim 2 ':' "$line")
+    local usekey="path"
+    local usevalue="$repodir"
+    if [ "$(repomanifest | xmlstarlet sel -t -v "//project[@path='$repodir']/@path")" != \
+          "$repodir" ]; then
+      local usekey="name"
+      local usevalue="$reponame"
+    fi
+    local remote=$(repomanifest | xmlstarlet sel -t -v "//project[@$usekey='$usevalue']/@remote")
+    if [ -z "$remote" ]; then
+      local remote=$(repomanifest | xmlstarlet sel -t -v "//default/@remote")
+    fi
+    local revision=$(repomanifest | xmlstarlet sel -t -v "//project[@$usekey='$usevalue']/@revision")
+    if [ -z "$revision" ]; then
+      local revision=$(repomanifest | xmlstarlet sel -t -v "//remote[@name='$remote']/@revision")
+      if [ -z "$revision" ]; then
+        local revision=$(repomanifest | xmlstarlet sel -t -v "//default/@revision")
+      fi
+    fi
+    local remote="$remote/"
+    if [[ "$revision" == 'refs/tags/'* ]]; then
+      local remote=""
+    fi
+    cd $(gettop)/$repodir
+    echo "$repodir: resetting to $remote$revision and cleaning up untracked" \
+         "files and folders"
+    git reset --hard $remote$revision || git reset --hard $revision
+    git clean -fdx
+    cd $(gettop)
+    echo
+  done < <(repo list)
+
+  unset repomanifest
 }
 
 # Completely cleans everything and deletes all untracked files
+# Deprecated.
 function reposterilize() {
+  echo -e '\033[1mNote: This function is deprecated.' \
+           'It might end up getting removed in the future.' \
+           '\nUse reporeset instead.\033[0m'
   if [[ "$(pwd)" == "$(realpath ~)" ]]; then
     echo "Aborted because you are in your home dir"
     return 1
