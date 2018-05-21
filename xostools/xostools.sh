@@ -329,6 +329,9 @@ EOF
 
   while read line; do
     local repodir=$(splitix_and_trim 1 ':' "$line")
+    if [ ! -d "$(gettop)/$repodir" ]; then
+      continue
+    fi
     local reponame=$(splitix_and_trim 2 ':' "$line")
     local usekey="path"
     local usevalue="$repodir"
