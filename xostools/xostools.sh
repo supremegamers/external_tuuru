@@ -358,6 +358,11 @@ EOF
     cd $(gettop)/$repodir
     echo "$repodir: resetting to $remote$revision and cleaning up untracked" \
          "files and folders"
+    # Abort cherry-picks, merges, rebases and reverts
+    git rebase --abort 2>&1 >/dev/null || \
+    git merge --abort 2>&1 >/dev/null || \
+    git revert --abort 2>&1 >/dev/null || \
+    git cherry-pick --abort 2>&1 >/dev/null || :
     git reset --hard $remote$revision || git reset --hard $revision
     git clean -fdx
     cd $(gettop)
