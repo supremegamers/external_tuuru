@@ -318,7 +318,7 @@ function splitix_and_trim() {
 function reporeset() {
   echo 'Resetting source tree back to remote state.' \
        'Any unsaved work will be gone.'
-  resetmanifest
+  cd .repo/manifests && git reset --hard m/XOS-8.1
 
   repomanifest=$(repo manifest)
   function repomanifest() {
