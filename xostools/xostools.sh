@@ -75,8 +75,7 @@ function lunchauto() {
     echo "Eating breakfast..."
     local devicename_extracted=$(echo -n "${1/XOS_/}" | cut -d '-' -f1)
     breakfast $devicename_extracted || :
-    if ! find device -name $devicename_extracted -type d \
-                     -mindepth 2 -maxdepth 2 2>&1 >/dev/null; then
+    if ! find device -mindepth 2 -maxdepth 2 -name $devicename_extracted -type d 2>&1 >/dev/null; then
       return 1
     fi
     echo "Lunching..."
