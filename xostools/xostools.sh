@@ -339,24 +339,11 @@ EOF
       local usekey="name"
       local usevalue="$reponame"
     fi
-    local remote=$(repomanifest | xmlstarlet sel -t -v "//project[@$usekey='$usevalue']/@remote")
-    if [ -z "$remote" ]; then
-      local remote=$(repomanifest | xmlstarlet sel -t -v "//default/@remote")
-    fi
-    local revision=$(repomanifest | xmlstarlet sel -t -v "//project[@$usekey='$usevalue']/@revision")
-    if [ -z "$revision" ]; then
-      local revision=$(repomanifest | xmlstarlet sel -t -v "//remote[@name='$remote']/@revision")
-      if [ -z "$revision" ]; then
-        local revision=$(repomanifest | xmlstarlet sel -t -v "//default/@revision")
-      fi
-    fi
+    local remote="m"
+    local revision="XOS-8.1"
     local remote="$remote/"
-    if [[ "$revision" == 'refs/tags/'* ]]; then
-      local remote=""
-    fi
     cd $(gettop)/$repodir
-    echo "$repodir: resetting to $remote$revision and cleaning up untracked" \
-         "files and folders"
+    echo "$repodir: resetting and cleaning up untracked files/folders"
     # Abort cherry-picks, merges, rebases and reverts
     git rebase --abort 2>/dev/null >/dev/null || \
     git merge --abort 2>/dev/null >/dev/null || \
