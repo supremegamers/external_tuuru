@@ -317,7 +317,7 @@ function splitix_and_trim() {
 function reporeset() {
   echo 'Resetting source tree back to remote state.' \
        'Any unsaved work will be gone.'
-  cd .repo/manifests && git reset --hard m/XOS-8.1
+  cd .repo/manifests && git reset --hard m/XOS-9.0
 
   repomanifest=$(repo manifest)
   function repomanifest() {
@@ -340,7 +340,7 @@ EOF
       local usevalue="$reponame"
     fi
     local remote="m"
-    local revision="XOS-8.1"
+    local revision="XOS-9.0"
     local remote="$remote/"
     cd $(gettop)/$repodir
     echo "$repodir: resetting and cleaning up untracked files/folders"
@@ -404,9 +404,9 @@ function reposterilize() {
     git rebase --abort 2>/dev/null
     git cherry-pick --abort 2>/dev/null
     git reset 2>/dev/null
-    git reset --hard XOS/XOS-8.1 2>/dev/null \
- || git reset --hard github/XOS-8.1 2>/dev/null \
- || git reset --hard gerrit/XOS-8.1 2>/dev/null \
+    git reset --hard XOS/XOS-9.0 2>/dev/null \
+ || git reset --hard github/XOS-9.0 2>/dev/null \
+ || git reset --hard gerrit/XOS-9.0 2>/dev/null \
  || git reset --hard 2>/dev/null
     git clean -fd
   done < <(find "$startdir/" -name ".git" -type d)
@@ -418,8 +418,8 @@ function reposterilize() {
 
 function resetmanifest() {
   cd $(gettop)/.repo/manifests
-  git fetch origin XOS-8.1 2>&1 >/dev/null
-  git reset --hard origin/XOS-8.1 2>&1 >/dev/null
+  git fetch origin XOS-9.0 2>&1 >/dev/null
+  git reset --hard origin/XOS-9.0 2>&1 >/dev/null
   cd $(gettop)
 }
 
