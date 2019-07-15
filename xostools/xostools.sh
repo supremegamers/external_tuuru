@@ -74,7 +74,7 @@ source $(gettop)/external/xos/xostools/xostoolshelp.sh
 # Handle the kitchen and automatically eat lunch if hungry
 function lunchauto() {
     echo "Eating breakfast..."
-    local devicename_extracted=$(echo -n "${1/XOS_/}" | cut -d '-' -f1)
+    local devicename_extracted=$(echo -n "${1/aosp_/}" | cut -d '-' -f1)
     breakfast $devicename_extracted || :
     if ! find device -mindepth 2 -maxdepth 2 -name $devicename_extracted -type d 2>&1 >/dev/null; then
       return 1
