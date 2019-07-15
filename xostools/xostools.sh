@@ -81,7 +81,6 @@ function lunchauto() {
     fi
     echo "Lunching..."
     lunch $@
-    JACK
 }
 
 # Build function
@@ -422,11 +421,6 @@ function resetmanifest() {
   git fetch origin XOS-9.0 2>&1 >/dev/null
   git reset --hard origin/XOS-9.0 2>&1 >/dev/null
   cd $(gettop)
-}
-
-function JACK() {
-    $(gettop)/prebuilts/sdk/tools/jack-admin stop-server  2>/dev/null >/dev/null || :
-    $(gettop)/prebuilts/sdk/tools/jack-admin start-server 2>/dev/null >/dev/null || :
 }
 
 return 0
