@@ -3,7 +3,7 @@
 set -e
 
 if [ "$1" != "--no-reset" ]; then
-  echo "Warning: This will perform a reporeset and a reposync to make sure everything is up to date befor doing the merges"
+  echo "Warning: This will perform a reporeset and a reposync to make sure everything is up to date before doing the merges"
   echo "If you do not want that to happen, abort now using CTRL+C and use the parameter --no-reset"
   echo "Otherwise, just confirm with ENTER"
   read
