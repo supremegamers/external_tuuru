@@ -423,4 +423,6 @@ function resetmanifest() {
   cd $(gettop)
 }
 
+source $(gettop)/external/xos/xostools/mergetools.sh
+
 return 0
