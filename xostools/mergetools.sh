@@ -2,6 +2,6 @@
 
 mergeUpstream() {
   pushd $(gettop)
-  $(gettop)/external/xos/xostools/scripts/merge_upstream.sh $@
+  bash -i "$(gettop)/external/xos/xostools/scripts/merge_upstream.sh" $@
   popd
 }
