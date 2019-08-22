@@ -60,7 +60,11 @@ while read path; do
   git merge $revision
 
   if hash xg >/dev/null 2>/dev/null; then
-    xg dpush
+    xg dpush || (
+      echo -e "\e[1;91mAn error occured during dpush, please review the error.\e[0m";
+      echo "If you think this isn't a problem, press ENTER to continue, otherwise CTRL+C";
+      read
+    )
   fi
   popd
 
