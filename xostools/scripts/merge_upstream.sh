@@ -10,7 +10,7 @@ if [ "$1" != "--no-reset" ]; then
   echo
 fi
 
-#source build/envsetup.sh
+source build/envsetup.sh
 
 if [ "$1" != "--no-reset" ]; then
   reporeset
