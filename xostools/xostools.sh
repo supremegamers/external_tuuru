@@ -179,7 +179,7 @@ function reposync() {
             echo "Usage: reposync <speed> [path]"
             echo "Available speeds are:"
             echo -en "  turbo\n  faster\n  fast\n  auto\n  slow\n" \
-                     "  slower\n  single\n  easteregg\n\n"
+                      " slower\n  single\n  easteregg\n\n"
             echo "Path is not necessary. If not supplied, defaults to workspace."
             return 0
         ;;
