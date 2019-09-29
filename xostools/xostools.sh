@@ -196,7 +196,7 @@ function reposync() {
     # Sync!! Use the power of shell scripting!
     echo "Using $THREADS_REPO threads for sync."
     repo sync -j$THREADS_REPO $QUIET_ARG --force-sync \
-        -c -f --no-clone-bundle --no-tags $2 $PATH_ARG
+        -c --no-clone-bundle --no-tags $2 $PATH_ARG
     return $?
 }
 
