@@ -425,4 +425,10 @@ function resetmanifest() {
 
 source $(gettop)/external/xos/xostools/mergetools.sh
 
+function reticulateOurSplines() {
+  pushd $(gettop)
+  bash -i "external/xos/xostools/scripts/reticulate_our_splines.sh" $@
+  popd
+}
+
 return 0
