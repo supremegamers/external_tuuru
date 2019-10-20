@@ -2,6 +2,8 @@
 
 set -e
 
+export GIT_TERMINAL_PROMPT=0
+
 if [ "$1" != "--no-reset" ]; then
   echo "Warning: This will perform a reporeset and a reposync to make sure everything is up to date before doing the merges"
   echo "If you do not want that to happen, abort now using CTRL+C and use the parameter --no-reset"
@@ -34,7 +36,9 @@ while read path; do
 
   echo "Setting upstream remote"
   if ! git ls-remote upstream >/dev/null 2>/dev/null; then
-    git remote add upstream $repo_upstream
+    if ! git remote add upstream $repo_upstream; then
+      git remote set-url upstream $repo_upstream
+    fi
   else
     git remote set-url upstream $repo_upstream
   fi
