@@ -23,8 +23,8 @@ echo -e "\033[0mincluding \033[1m\033[38;5;39mXOS\033[0m\033[1m Tools\033[0m"
 # Here the virtual cores are always counted, which can be the same as
 # physical cores if not using Hyperthreading or a similar feature.
 CPU_COUNT=$(nproc --all)
-# Use 4 times the CPU count to build
-THREAD_COUNT_BUILD=$(($CPU_COUNT * 4))
+# Use 2 times the CPU count to build
+THREAD_COUNT_BUILD=$(($CPU_COUNT * 2))
 # Use doubled CPU count to sync (auto)
 THREAD_COUNT_N_BUILD=$(($CPU_COUNT * 2))
 
