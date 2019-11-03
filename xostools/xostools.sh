@@ -368,17 +368,18 @@ EOF
 	local remote="$remote/"
     repo_url="$repo_url$reponame"
     pushd $TOP/$repodir
-	if ! git ls-remote mainstream 2>/dev/null >/dev/null
-	then
-		git remote add mainstream "$repo_url" 2>/dev/null || git remote set-url mainstream "$repo_url"
-	else
-		git remote set-url mainstream "$repo_url"
-	fi
-	git fetch mainstream $revision
+    if [ "$repo_remote" != "aosp" ]; then
+    	if ! git ls-remote mainstream 2>/dev/null >/dev/null; then
+		    git remote add mainstream "$repo_url" 2>/dev/null || git remote set-url mainstream "$repo_url"
+	    else
+        	git remote set-url mainstream "$repo_url"
+        fi
+        git fetch mainstream $revision
+    fi
 	echo "$repodir: resetting and cleaning up untracked files/folders"
 	git rebase --abort 2> /dev/null > /dev/null || git merge --abort 2> /dev/null > /dev/null || git revert --abort 2> /dev/null > /dev/null || git cherry-pick --abort 2> /dev/null > /dev/null || :
     git stash >/dev/null 2>/dev/null || : # :D
-	git reset --hard $remote$revision 2> /dev/null || git reset --hard mainstream/$revision 2> /dev/null || git reset --hard $revision 2> /dev/null
+    git reset --hard $remote$revision 2> /dev/null || ( [ "$repo_name" != "aosp" ] && git reset --hard mainstream/$revision ) 2> /dev/null || git reset --hard $revision 2> /dev/null
     git clean -fdx || :
     popd
     echo
