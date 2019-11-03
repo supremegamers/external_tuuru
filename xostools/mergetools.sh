@@ -1,13 +1,9 @@
 #!/bin/bash
 
 mergeUpstream() {
-  pushd $(gettop)
-  bash -i "external/xos/xostools/scripts/merge_upstream.sh" $@
-  popd
+    TOP="$(gettop)" bash -i "$(gettop)/external/xos/xostools/scripts/merge_upstream.sh" $@
 }
 
 mergeAospUpstream() {
-  pushd $(gettop)
-  bash -i "external/xos/xostools/scripts/merge_aosp.sh" $@
-  popd
+    TOP="$(gettop)" bash -i "$(gettop)/external/xos/xostools/scripts/merge_aosp.sh" $@
 }

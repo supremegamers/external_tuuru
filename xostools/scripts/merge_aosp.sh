@@ -2,6 +2,8 @@
 
 set -e
 
+pushd $TOP
+
 snippet=".repo/manifests/snippets/XOS.xml"
 
 if [[ "$2" == "-"* ]]; then
@@ -71,11 +73,7 @@ while read path; do
   echo
 done < <(xmlstarlet sel -t -v '/manifest/project[@merge-aosp="true"]/@path' $snippet)
 
+popd
+
 echo "Everything done."
-
-
-
-
-
-
 

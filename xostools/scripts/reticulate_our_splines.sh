@@ -2,6 +2,8 @@
 
 set -e
 
+pushd $TOP
+
 source build/envsetup.sh
 
 if [ -z "$ROM_REVISION" ]; then
@@ -91,5 +93,7 @@ done
 echo
 echo "Deleting temporary manifest file"
 rm -f full-manifest.xml
+
+popd
 
 echo "Everything done."

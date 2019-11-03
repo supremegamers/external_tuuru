@@ -12,6 +12,8 @@ if [ "$1" != "--no-reset" ]; then
   echo
 fi
 
+pushd $TOP
+
 source build/envsetup.sh
 
 if [ "$1" != "--no-reset" ]; then
@@ -63,5 +65,7 @@ done < <(xmlstarlet sel -t -v '/manifest/project[@upstream]/@path' full-manifest
 
 echo "Deleting temporary manifest file"
 rm -f full-manifest.xml
+
+popd
 
 echo "Everything done."
