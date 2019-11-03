@@ -34,7 +34,7 @@ while read path; do
   echo "Upstream revision: $repo_upstream_rev"
   repo_remote=$(xmlstarlet sel -t -v "/manifest/project[@path='$path']/@remote" full-manifest.xml)
 
-  pushd $path
+  pushd $TOP/$path
 
   echo "Setting upstream remote"
   if ! git ls-remote upstream >/dev/null 2>/dev/null; then
