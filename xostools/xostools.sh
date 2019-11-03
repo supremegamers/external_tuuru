@@ -339,19 +339,48 @@ EOF
       local usekey="name"
       local usevalue="$reponame"
     fi
-    local remote="m"
-    local revision="XOS-10.0"
-    local remote="$remote/"
-    cd $(gettop)/$repodir
-    echo "$repodir: resetting and cleaning up untracked files/folders"
-    # Abort cherry-picks, merges, rebases and reverts
-    git rebase --abort 2>/dev/null >/dev/null || \
-    git merge --abort 2>/dev/null >/dev/null || \
-    git revert --abort 2>/dev/null >/dev/null || \
-    git cherry-pick --abort 2>/dev/null >/dev/null || :
-    git reset --hard $remote$revision || git reset --hard $revision
-    git clean -fdx
-    cd $(gettop)
+    local path="$repodir"
+	repo_remote=$(repomanifest | xmlstarlet sel -t -v "/manifest/project[@path='$path']/@remote" || \
+                  repomanifest | xmlstarlet sel -t -v "/manifest/default/@remote")
+	repo_revision=$(repomanifest | xmlstarlet sel -t -v "/manifest/project[@path='$path']/@revision" || \
+                    repomanifest | xmlstarlet sel -t -v "/manifest/default[@remote='$repo_remote']/@revision" || :)
+	if [ -z "$repo_revision" ]
+	then
+		repo_revision=$(repomanifest | xmlstarlet sel -t -v "/manifest/remote[@name='$repo_remote']/@revision" || :)
+	fi
+	short_revision=${repo_revision/refs\/heads\//}
+    short_revision=${repo_revision/refs\/tags\//}
+	repo_url=$(repomanifest | xmlstarlet sel -t -v "/manifest/remote[@name='$repo_remote']/@fetch" || \
+               repomanifest | xmlstarlet sel -t -v "/manifest/default[@remote='$repo_remote']/@fetch")
+	if [ -z "$repo_revision" ]
+	then
+		if [ -z "$ROM_REVISION" ]
+		then
+			echo -e "\033[1mWarning: unable to determine revision and ROM_REVISION or ROM_VERSION not set! \033[0m"
+			repo_revision="XOS-10.0"
+		else
+			echo -e "Note: unable to determine revision, defaulting to $ROM_REVISION"
+			repo_revision="$ROM_REVISION"
+		fi
+	fi
+	local remote="$repo_remote"
+	local revision="$repo_revision"
+	local remote="$remote/"
+    repo_url="$repo_url$reponame"
+    pushd $TOP/$repodir
+	if ! git ls-remote mainstream 2>/dev/null >/dev/null
+	then
+		git remote add mainstream "$repo_url" 2>/dev/null || git remote set-url mainstream "$repo_url"
+	else
+		git remote set-url mainstream "$repo_url"
+	fi
+	git fetch mainstream $revision
+	echo "$repodir: resetting and cleaning up untracked files/folders"
+	git rebase --abort 2> /dev/null > /dev/null || git merge --abort 2> /dev/null > /dev/null || git revert --abort 2> /dev/null > /dev/null || git cherry-pick --abort 2> /dev/null > /dev/null || :
+    git stash >/dev/null 2>/dev/null || : # :D
+	git reset --hard $remote$revision 2> /dev/null || git reset --hard mainstream/$revision 2> /dev/null || git reset --hard $revision 2> /dev/null
+    git clean -fdx || :
+    popd
     echo
   done < <(repo list)
 
