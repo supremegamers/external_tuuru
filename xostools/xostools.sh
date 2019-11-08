@@ -379,7 +379,7 @@ EOF
 	echo "$repodir: resetting and cleaning up untracked files/folders"
 	git rebase --abort 2> /dev/null > /dev/null || git merge --abort 2> /dev/null > /dev/null || git revert --abort 2> /dev/null > /dev/null || git cherry-pick --abort 2> /dev/null > /dev/null || :
     git stash >/dev/null 2>/dev/null || : # :D
-    git reset --hard $remote$revision 2> /dev/null || ( [ "$repo_name" != "aosp" ] && git reset --hard mainstream/$revision ) 2> /dev/null || git reset --hard $revision 2> /dev/null
+    git reset --hard $remote$revision 2> /dev/null || ( [ "$repo_name" != "aosp" ] && git reset --hard mainstream/$revision ) 2> /dev/null || git reset --hard $revision 2> /dev/null || git reset --hard
     git clean -fdx || :
     popd
     echo
