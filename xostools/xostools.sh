@@ -319,6 +319,8 @@ function reporeset() {
        'Any unsaved work will be gone.'
   cd .repo/manifests && git reset --hard m/XOS-10.0
 
+  local TOP="$(gettop)"
+
   repomanifest=$(repo manifest)
   function repomanifest() {
     cat <<EOF
@@ -367,7 +369,7 @@ EOF
 	local revision="$repo_revision"
 	local remote="$remote/"
     repo_url="$repo_url$reponame"
-    pushd $repodir
+    pushd $TOP/$repodir
     if [ "$repo_remote" != "aosp" ]; then
     	if ! git ls-remote mainstream 2>/dev/null >/dev/null; then
 		    git remote add mainstream "$repo_url" 2>/dev/null || git remote set-url mainstream "$repo_url"
