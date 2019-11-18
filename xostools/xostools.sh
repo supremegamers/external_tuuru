@@ -367,7 +367,7 @@ EOF
 	local revision="$repo_revision"
 	local remote="$remote/"
     repo_url="$repo_url$reponame"
-    pushd $TOP/$repodir
+    pushd $repodir
     if [ "$repo_remote" != "aosp" ]; then
     	if ! git ls-remote mainstream 2>/dev/null >/dev/null; then
 		    git remote add mainstream "$repo_url" 2>/dev/null || git remote set-url mainstream "$repo_url"
