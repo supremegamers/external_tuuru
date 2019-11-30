@@ -74,7 +74,7 @@ for path in ${list[@]}; do
 
   if [ "$(git rev-parse --is-shallow-repository)" == "true" ]; then
     echo "Shallow repository detected, unshallowing first"
-    git fetch --unshallow $repo_remote
+    git fetch --unshallow
   fi
 
   echo "Fetching upstream"
