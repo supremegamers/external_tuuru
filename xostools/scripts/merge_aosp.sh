@@ -4,7 +4,7 @@ set -e
 
 pushd $TOP
 
-snippet=".repo/manifests/snippets/XOS.xml"
+snippet="$TOP/.repo/manifests/snippets/XOS.xml"
 
 if [[ "$2" == "-"* ]]; then
   echo "Specify positional arguments after options, for example --no-reset android-9.0.0_r45"
