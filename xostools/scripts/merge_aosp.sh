@@ -2,7 +2,7 @@
 
 set -e
 
-pushd $TOP
+cd $TOP
 
 snippet="$TOP/.repo/manifests/snippets/XOS.xml"
 
@@ -31,6 +31,8 @@ if [ -z "$1" ]; then
 fi
 
 revision="$1"
+
+cd $TOP
 
 while read path; do
   echo "$path"
@@ -72,8 +74,6 @@ while read path; do
 
   echo
 done < <(xmlstarlet sel -t -v '/manifest/project[@merge-aosp="true"]/@path' $snippet)
-
-popd
 
 echo "Everything done."
 
