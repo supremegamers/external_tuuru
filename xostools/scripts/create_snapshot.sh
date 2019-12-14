@@ -40,7 +40,7 @@ while read path; do
     tag_to_push="${repo_revision}-$(date '+%Y%m%d_%H%M%S_%Z_%s')"
     git tag "${tag_to_push}"
     if hash xg >/dev/null 2>/dev/null; then
-        xg a
+        xg a 2>/dev/null || :
         git push gerrit "${tag_to_push}"
     fi
 
