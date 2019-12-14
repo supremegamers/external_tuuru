@@ -27,7 +27,7 @@ fi
 
 cd $TOP
 
-repo_revision=$(xmlstarlet sel -t -v "/manifest/remote/[@name='XOS']/@revision" $snippet | sed -re 's/^refs\/heads\/(.*)$/\1/')
+repo_revision=$(xmlstarlet sel -t -v "/manifest/remote[@name='XOS']/@revision" $snippet | sed -re 's/^refs\/heads\/(.*)$/\1/')
 while read path; do
     echo "$path"
     pushd $path
