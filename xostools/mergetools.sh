@@ -7,3 +7,8 @@ mergeUpstream() {
 mergeAospUpstream() {
     TOP="$(gettop)" bash -i "$(gettop)/external/xos/xostools/scripts/merge_aosp.sh" $@
 }
+
+createSnapshot() {
+    TOP="$(gettop)" bash -i "$(gettop)/external/xos/xostools/scripts/create_snapshot.sh" $@
+}
+
