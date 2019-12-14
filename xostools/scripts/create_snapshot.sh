@@ -6,7 +6,7 @@ cd $TOP
 
 snippet="$TOP/.repo/manifests/snippets/XOS.xml"
 
-if [[ "$2" == "-"* ]]; then
+if [[ "$2" == "--"* ]]; then
     echo "Specify positional arguments after options, for example --no-reset foo"
     exit 2
 fi
