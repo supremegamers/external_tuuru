@@ -28,6 +28,11 @@ fi
 cd $TOP
 
 repo_revision=$(xmlstarlet sel -t -v "/manifest/remote[@name='XOS']/@revision" $snippet | sed -re 's/^refs\/heads\/(.*)$/\1/')
+# provide suffix in env
+tag_to_push="${repo_revision}-$(date '+%Y%m%d_%H%M%S_%Z_%s')${tag_to_push_suffix}"
+if [ ! -z "$1" ]; then
+    tag_to_push="$1${tag_to_push_suffix}"
+fi
 while read path; do
     echo "$path"
     pushd $path
@@ -37,7 +42,6 @@ while read path; do
         git fetch --unshallow
     fi
 
-    tag_to_push="${repo_revision}-$(date '+%Y%m%d_%H%M%S_%Z_%s')"
     git tag "${tag_to_push}"
     if hash xg >/dev/null 2>/dev/null; then
         xg a 2>/dev/null || :
