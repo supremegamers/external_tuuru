@@ -315,6 +315,10 @@ function splitix_and_trim() {
 # Resets all repositories to their corresponding remote state
 # as defined in the manifest
 function reporeset() {
+  if [ -z "$BASH_VERSION" ]; then
+    bash -ic "cd $(gettop) && source build/envsetup.sh && reporeset"
+    return $?
+  fi
   echo 'Resetting source tree back to remote state.' \
        'Any unsaved work will be gone.'
   cd .repo/manifests && git reset --hard m/XOS-10.0
