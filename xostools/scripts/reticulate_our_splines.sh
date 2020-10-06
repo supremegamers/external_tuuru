@@ -81,9 +81,9 @@ for path in ${list[@]}; do
   git fetch upstream
   echo "Checking out $repo_upstream_rev -> $short_revision"
   git checkout upstream/$repo_upstream_rev -B $short_revision
-#  $has_createxos && echo "Creating repository (if it doesn't exist)" && createXos || :
+  $has_createxos && echo "Creating repository (if it doesn't exist)" && createXos || :
 
-  addXos && git push xos $ROM_REVISION
+  addXos && git push xos HEAD:$ROM_REVISION
 
   popd
 
