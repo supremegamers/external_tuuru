@@ -57,8 +57,8 @@ for path in ${list[@]}; do
   if [ ! -d .git ]; then
     git init
   else
-    if git ls-remote XOS >/dev/null 2>/dev/null && \
-        git fetch XOS "${repo_revision}"; then
+    if git ls-remote xos >/dev/null 2>/dev/null && \
+        git fetch xos "${repo_revision}"; then
       echo "Skipping $repo_path, already there"
       popd
       continue
@@ -83,10 +83,8 @@ for path in ${list[@]}; do
   git checkout upstream/$repo_upstream_rev -B $short_revision
 #  $has_createxos && echo "Creating repository (if it doesn't exist)" && createXos || :
 
-  if hash xg >/dev/null 2>/dev/null; then
-    echo "Pushing"
-    xg dpush || echo "dpush returned non-zero!"
-  fi
+  addXos && git push xos $ROM_REVISION
+
   popd
 
 done
