@@ -44,7 +44,7 @@ while read path; do
 
     git tag "${tag_to_push}"
     addXos
-    git push xos HEAD:$ROM_REVISION
+    git push xos HEAD:$ROM_VERSION
 
     echo
     popd

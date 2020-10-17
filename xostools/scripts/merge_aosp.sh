@@ -70,7 +70,7 @@ done < <(xmlstarlet sel -t -v '/manifest/project[@merge-aosp="true"]/@path' $sni
 while read path; do
     pushd $path
     addXos
-    git push xos HEAD:$ROM_REVISION
+    git push xos HEAD:$ROM_VERSION
     popd
 done < <(xmlstarlet sel -t -v '/manifest/project[@merge-aosp="true"]/@path' $snippet)
 

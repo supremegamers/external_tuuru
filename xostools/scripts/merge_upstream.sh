@@ -56,7 +56,7 @@ while read path; do
   git merge upstream/$repo_upstream_rev
 
   addXos
-  git push xos HEAD:$ROM_REVISION
+  git push xos HEAD:$ROM_VERSION
   popd
 
   echo
