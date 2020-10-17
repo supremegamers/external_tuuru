@@ -55,9 +55,8 @@ while read path; do
   echo "Merging upstream"
   git merge upstream/$repo_upstream_rev
 
-  if hash xg >/dev/null 2>/dev/null; then
-    xg dpush
-  fi
+  addXos
+  git push xos HEAD:$ROM_REVISION
   popd
 
   echo

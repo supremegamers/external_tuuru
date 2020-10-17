@@ -43,10 +43,8 @@ while read path; do
     fi
 
     git tag "${tag_to_push}"
-    if hash xg >/dev/null 2>/dev/null; then
-        xg a 2>/dev/null || :
-        git push gerrit "${tag_to_push}"
-    fi
+    addXos
+    git push xos HEAD:$ROM_REVISION
 
     echo
     popd

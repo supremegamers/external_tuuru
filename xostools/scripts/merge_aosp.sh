@@ -67,17 +67,12 @@ while read path; do
     popd
 done < <(xmlstarlet sel -t -v '/manifest/project[@merge-aosp="true"]/@path' $snippet)
 
-if hash xg >/dev/null 2>/dev/null; then
-    while read path; do
-        pushd $path
-        xg dpush || (
-            echo -e "\e[1;91mAn error occured during dpush, please review the error.\e[0m";
-            echo "If you think this isn't a problem, press ENTER to continue, otherwise CTRL+C";
-            read
-        )
-        popd
-    done < <(xmlstarlet sel -t -v '/manifest/project[@merge-aosp="true"]/@path' $snippet)
-fi
+while read path; do
+    pushd $path
+    addXos
+    git push xos HEAD:$ROM_REVISION
+    popd
+done < <(xmlstarlet sel -t -v '/manifest/project[@merge-aosp="true"]/@path' $snippet)
 
 echo "Everything done."
 
