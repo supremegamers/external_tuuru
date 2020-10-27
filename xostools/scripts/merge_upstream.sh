@@ -55,8 +55,7 @@ while read path; do
   echo "Merging upstream"
   git merge upstream/$repo_upstream_rev
 
-  addXos
-  git push xos HEAD:$ROM_VERSION
+  addXos && git push xos HEAD:$ROM_VERSION
   popd
 
   echo
