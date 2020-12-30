@@ -55,6 +55,7 @@ for path in ${list[@]}; do
   pushd $path
 
   if [ ! -d .git ]; then
+    echo "Initializing git repository"
     git init
   else
     if git ls-remote xos >/dev/null 2>/dev/null && \
@@ -67,7 +68,7 @@ for path in ${list[@]}; do
 
   echo "Setting upstream remote"
   if ! git ls-remote upstream >/dev/null 2>/dev/null; then
-    git remote add upstream $repo_upstream
+    git remote add upstream $repo_upstream || :
   else
     git remote set-url upstream $repo_upstream
   fi
