@@ -33,8 +33,8 @@ while read path; do
     pushd $path
 
     if [ "$(git rev-parse --is-shallow-repository)" == "true" ]; then
-        echo "Shallow repository detected, unshallowing first"
-        git fetch --unshallow
+        echo "Shallow repository detected, skipping"
+        continue
     fi
 
     addXos
