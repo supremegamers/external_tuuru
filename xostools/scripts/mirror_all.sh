@@ -34,6 +34,7 @@ while read path; do
 
     if [ "$(git rev-parse --is-shallow-repository)" == "true" ]; then
         echo "Shallow repository detected, skipping"
+        popd
         continue
     fi
 
