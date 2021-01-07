@@ -11,6 +11,11 @@ if [[ "$2" == "--"* ]]; then
     exit 2
 fi
 
+if [[ "$1" == "--help" ]]; then
+    echo "Optional: First non-flag argument is tag"
+    echo "Optional: Specify env var tag_to_push_suffix"
+fi
+
 source build/envsetup.sh
 
 if [ "$1" != "--no-reset" ]; then
@@ -44,7 +49,7 @@ while read path; do
 
     git tag "${tag_to_push}"
     addXos
-    git push xos HEAD:$ROM_VERSION
+    git push xos "${tag_to_push}"
 
     echo
     popd
