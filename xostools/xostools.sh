@@ -447,6 +447,10 @@ function resetmanifest() {
   cd $(gettop)
 }
 
+function print_product_packages() {
+    get_build_var PRODUCT_PACKAGES
+}
+
 source $(gettop)/external/xos/xostools/mergetools.sh
 
 function reticulateOurSplines() {
