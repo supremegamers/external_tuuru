@@ -451,6 +451,10 @@ function print_product_packages() {
     get_build_var PRODUCT_PACKAGES
 }
 
+function pretty_print_product_packages() {
+    print_product_packages | tr " " "\n" | sort -u
+}
+
 source $(gettop)/external/xos/xostools/mergetools.sh
 
 function reticulateOurSplines() {
