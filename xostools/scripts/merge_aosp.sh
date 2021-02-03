@@ -38,7 +38,7 @@ while read path; do
     echo "$path"
     repo_path="$path"
     repo_name=$(xmlstarlet sel -t -v "/manifest/project[@path='$path']/@name" $snippet)
-    repo_name_aosp=$(echo "$repo_name" | sed -e "s/android_//" -e "s/^build_make$/build/" -e "s/_/\//g")
+    repo_name_aosp=$(echo "$repo_name" | sed -e "s/android_//" -e "s/^build_make$/build/" -e "s/_/\//g" -e 's/PermissionController/PackageInstaller/')
     repo_aosp="https://android.googlesource.com/platform/$repo_name_aosp"
     echo "AOSP remote: $repo_aosp"
     echo "Revision to merge: $revision"
