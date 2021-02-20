@@ -38,8 +38,8 @@ while read path; do
         continue
     fi
 
-    addXos
-    addXosGithub
+    addXos || :
+    addXosGithub || :
     git branch -r --list 'xos/*' | awk '{ print $1 }' | cut -d '/' -f2 | xargs -i git push -f xosgh 'xos/{}:refs/heads/{}'
 
     echo
