@@ -309,7 +309,7 @@ function reporeset() {
   fi
   echo 'Resetting source tree back to remote state.' \
        'Any unsaved work will be gone.'
-  cd .repo/manifests && git reset --hard m/XOS-11.0
+  cd .repo/manifests && git reset --hard m/XOS-12.0
 
   local TOP="$(gettop)"
 
@@ -351,7 +351,7 @@ EOF
 		if [ -z "$ROM_REVISION" ]
 		then
 			echo -e "\033[1mWarning: unable to determine revision and ROM_REVISION or ROM_VERSION not set! \033[0m"
-			repo_revision="XOS-11.0"
+			repo_revision="XOS-12.0"
 		else
 			echo -e "Note: unable to determine revision, defaulting to $ROM_REVISION"
 			repo_revision="$ROM_REVISION"
@@ -420,9 +420,9 @@ function reposterilize() {
     git rebase --abort 2>/dev/null
     git cherry-pick --abort 2>/dev/null
     git reset 2>/dev/null
-    git reset --hard XOS/XOS-11.0 2>/dev/null \
- || git reset --hard github/XOS-11.0 2>/dev/null \
- || git reset --hard gerrit/XOS-11.0 2>/dev/null \
+    git reset --hard XOS/XOS-12.0 2>/dev/null \
+ || git reset --hard github/XOS-12.0 2>/dev/null \
+ || git reset --hard gerrit/XOS-12.0 2>/dev/null \
  || git reset --hard 2>/dev/null
     git clean -fd
   done < <(find "$startdir/" -name ".git" -type d)
@@ -434,8 +434,8 @@ function reposterilize() {
 
 function resetmanifest() {
   cd $(gettop)/.repo/manifests
-  git fetch origin XOS-11.0 2>&1 >/dev/null
-  git reset --hard origin/XOS-11.0 2>&1 >/dev/null
+  git fetch origin XOS-12.0 2>&1 >/dev/null
+  git reset --hard origin/XOS-12.0 2>&1 >/dev/null
   cd $(gettop)
 }
 
