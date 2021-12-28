@@ -12,7 +12,7 @@ fi
 
 has_createxos=true
 if ! type createXos >/dev/null 2>/dev/null; then
-  echo -e "\033[1m;Note: createXos not found, repositories won't be created if missing! \033[0m"
+  echo -e "\033[1mNote: createXos not found, repositories won't be created if missing! \033[0m"
   has_createxos=false
 fi
 
@@ -86,8 +86,9 @@ for path in ${list[@]}; do
   $has_createxos && echo "Creating repository (if it doesn't exist)" && createXos || :
 
   if ! git ls-remote XOS >/dev/null 2>/dev/null; then
-    git remote add XOS https://git.halogenos.org/halogenOS/$repo_name
-    git remote set-url --push ssh://git@git.halogenos.org:halogenOS/$repo_name
+    git remote add XOS https://git.halogenos.org/halogenOS/$repo_name ||
+      git remote set-url XOS https://git.halogenos.org/halogenOS/$repo_name
+    git remote set-url --push XOS ssh://git@git.halogenos.org:halogenOS/$repo_name
   fi
   git push XOS HEAD:$ROM_REVISION
 
