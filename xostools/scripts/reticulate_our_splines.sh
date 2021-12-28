@@ -68,11 +68,7 @@ for path in ${list[@]}; do
   fi
 
   echo "Setting upstream remote"
-  if ! git ls-remote upstream >/dev/null 2>/dev/null; then
-    git remote add upstream $repo_upstream || :
-  else
-    git remote set-url upstream $repo_upstream
-  fi
+  git remote add upstream $repo_upstream || git remote set-url upstream $repo_upstream
 
   if [ "$(git rev-parse --is-shallow-repository)" == "true" ]; then
     echo "Shallow repository detected, unshallowing first"
