@@ -68,7 +68,7 @@ done < <(xmlstarlet sel -t -v '/manifest/project[@merge-aosp="true"]/@path' "$sn
 
 while read -r path; do
     pushd "$path"
-    git push xos HEAD:$ROM_VERSION
+    git push XOS HEAD:$ROM_VERSION
     popd
 done < <(xmlstarlet sel -t -v '/manifest/project[@merge-aosp="true"]/@path' "$snippet" && echo)
 
