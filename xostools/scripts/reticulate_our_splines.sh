@@ -88,7 +88,7 @@ for path in ${list[@]}; do
   if ! git ls-remote XOS >/dev/null 2>/dev/null; then
     git remote add XOS https://git.halogenos.org/halogenOS/$repo_name ||
       git remote set-url XOS https://git.halogenos.org/halogenOS/$repo_name
-    git remote set-url --push XOS ssh://git@git.halogenos.org:halogenOS/$repo_name
+    git remote set-url --push XOS ssh://git@git.halogenos.org/halogenOS/$repo_name
   fi
   git push XOS HEAD:$ROM_REVISION
 
