@@ -25,6 +25,7 @@ for path in ${list[@]}; do
   echo
   echo "$path"
   repo_path="$path"
+  repo_name=$(xmlstarlet sel -t -v "/manifest/project[@path='$path']/@name" full-manifest.xml)
   repo_upstream_full=$(xmlstarlet sel -t -v "/manifest/project[@path='$path']/@upstream" full-manifest.xml)
   repo_upstream=$(echo "$repo_upstream_full" | cut -d '|' -f1)
   echo "Upstream: $repo_upstream"
@@ -84,7 +85,11 @@ for path in ${list[@]}; do
   git checkout upstream/$repo_upstream_rev -B $short_revision
   $has_createxos && echo "Creating repository (if it doesn't exist)" && createXos || :
 
-  addXos && git push xos HEAD:$ROM_REVISION
+  if ! git ls-remote XOS >/dev/null 2>/dev/null; then
+    git remote add XOS https://git.halogenos.org/halogenOS/$repo_name
+    git remote set-url --push ssh://git@git.halogenos.org:halogenOS/$repo_name
+  fi
+  git push XOS HEAD:$ROM_REVISION
 
   popd
 
