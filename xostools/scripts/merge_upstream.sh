@@ -26,7 +26,7 @@ repo manifest > full-manifest.xml
 
 while read path; do
   echo "$path"
-  repo_path="$path"
+  repo_name=$(xmlstarlet sel -t -v "/manifest/project[@path='$path']/@name" full-manifest.xml)
   repo_upstream_full=$(xmlstarlet sel -t -v "/manifest/project[@path='$path']/@upstream" full-manifest.xml)
   repo_upstream=$(echo "$repo_upstream_full" | cut -d '|' -f1)
   echo "Upstream: $repo_upstream"
@@ -35,6 +35,8 @@ while read path; do
   repo_remote=$(xmlstarlet sel -t -v "/manifest/project[@path='$path']/@remote" full-manifest.xml)
 
   pushd $TOP/$path
+
+  repo checkout $ROM_VERSION || repo start $ROM_VERSION
 
   echo "Setting upstream remote"
   if ! git ls-remote upstream >/dev/null 2>/dev/null; then
@@ -55,7 +57,7 @@ while read path; do
   echo "Merging upstream"
   git merge upstream/$repo_upstream_rev
 
-  addXos && git push xos HEAD:$ROM_VERSION
+  git push XOS HEAD:$ROM_VERSION
   popd
 
   echo
