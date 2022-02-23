@@ -105,10 +105,10 @@ function build() {
                 # Now start building
                 echo "Using $THREAD_COUNT_BUILD threads for build."
                 if [ "$buildarg" != "mm" ]; then
-                    make -j$THREAD_COUNT_BUILD $module
+                    make --skip-soong-tests -j$THREAD_COUNT_BUILD $module
                     return $?
                 else
-                    mmma -j$THREAD_COUNT_BUILD $module
+                    mmma --skip-soong-tests -j$THREAD_COUNT_BUILD $module
                     return $?
                 fi
             ;;
