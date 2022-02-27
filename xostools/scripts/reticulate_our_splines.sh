@@ -59,8 +59,8 @@ for path in ${list[@]}; do
     echo "Initializing git repository"
     git init
   else
-    if git ls-remote xos >/dev/null 2>/dev/null && \
-        git fetch xos "${repo_revision}"; then
+    if git ls-remote XOS >/dev/null 2>/dev/null && \
+        git fetch XOS "${repo_revision}"; then
       echo "Skipping $repo_path, already there"
       popd
       continue
