@@ -86,7 +86,12 @@ for path in ${list[@]}; do
       git remote set-url XOS https://git.halogenos.org/halogenOS/$repo_name
     git remote set-url --push XOS ssh://git@git.halogenos.org/halogenOS/$repo_name
   fi
-  git push XOS HEAD:$ROM_REVISION
+
+  if [[ ${FORCE_PUSHES} == true ]]; then
+    git push XOS HEAD:$ROM_REVISION -f
+  else
+    git push XOS HEAD:$ROM_REVISION
+  fi
 
   popd
 
