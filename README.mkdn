@@ -1,0 +1,6 @@
+# カスミのツール (Kasumi's Tools)
+
+A set of functions and scripts to ease work of both Kasumi's helpers
+and leaders.
+
+Based on [XOS Tools](https://git.halogenos.org/halogenOS/android_external_xos).
