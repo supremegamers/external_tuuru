@@ -4,7 +4,9 @@ set -e
 
 cd $TOP
 
-snippet="$TOP/.repo/manifests/snippets/XOS.xml"
+# Write a temporary manifest first.
+repo manitest > .manifest.swp
+snippet="$TOP/.manifest.swp"
 
 if [[ "$2" == "--"* ]]; then
     echo "Specify positional arguments after options, for example --no-reset foo"
@@ -32,7 +34,7 @@ fi
 
 cd $TOP
 
-repo_revision=$(xmlstarlet sel -t -v "/manifest/remote[@name='XOS']/@revision" $snippet | sed -re 's/^refs\/heads\/(.*)$/\1/')
+repo_revision=$(xmlstarlet sel -t -v "/manifest/remote[@name='yuki-no-git']/@revision" $snippet | sed -re 's/^refs\/heads\/(.*)$/\1/')
 # provide suffix in env
 tag_to_push="${repo_revision}-$(date '+%Y%m%d_%H%M%S_%Z_%s')${tag_to_push_suffix}"
 if [ ! -z "$1" ]; then
@@ -48,8 +50,8 @@ while read path; do
     fi
 
     git tag "${tag_to_push}"
-    addXos
-    git push xos "${tag_to_push}"
+    addYuki
+    git push yuki-no-git "${tag_to_push}"
 
     echo
     popd
@@ -58,3 +60,5 @@ done < <(xmlstarlet sel -t -v '/manifest/project[@merge-aosp="true"]/@path' $sni
 
 echo "Everything done."
 
+# Remove swap file
+rm $TOP/.manifest.swp

@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-echo -e "\033[0mincluding \033[1m\033[38;5;39mXOS\033[0m\033[1m Tools\033[0m"
+echo -e "\033[0mincluding \033[1m\033[38;5;225mカスミ\033[0m\033[1m のツール\033[0m"
 
 # Get the CPU count
 # CPU count is either your virtual cores when using Hyperthreading
@@ -36,14 +36,14 @@ BEGINNING_DIR="$(pwd)"
 
 ### BASIC FUNCTIONS START
 
-# Echo with halogen color without new line
+# Echo with PoPiPa color without new line
 function echoxcc() {
-    echo -en "\033[1;38;5;39m$@\033[0m"
+    echo -en "\033[1;38;5;225m$@\033[0m"
 }
 
-# Echo with halogen color with new line
+# Echo with PoPiPa color with new line
 function echoxc() {
-    echoxcc "\033[1;38;5;39m$@\033[0m\n"
+    echoxcc "\033[1;38;5;225m$@\033[0m\n"
 }
 
 # Echo with new line and respect escape characters
@@ -69,70 +69,70 @@ function echoen() {
 ### BASIC FUNCTIONS END
 
 # Import help functions
-source $(gettop)/external/xos/xostools/xostoolshelp.sh
+source $(gettop)/external/tuuru/kasumi-no-tuuru/kasumi-no-tuuru-help.sh
 
 # Build function
-function build() {
+function play() {
     buildarg="$1"
     target="$2"
     cleanarg="$3 $4"
-    module="${cleanarg//noclean/}"
-    module="${module// /}"
-    cleanarg="${cleanarg/$module/}"
+    instrument="${cleanarg//nohype/}"
+    instrument="${instrument// /}"
+    cleanarg="${cleanarg/$instrument/}"
     cleanarg="${cleanarg// /}"
 
     # Display help if no argument passed
     if [ -z "$buildarg" ]; then
-        xostools_help_build
+        tuuru_help_play
         return 0
     fi
 
     # Notify that no target device could be found
     if [ -z "$target" ]; then
-        xostools_build_no_target_device
+        tuuru_play_no_target_device
     else
         # Handle the first argument
         case "$buildarg" in
 
-            full | module | mm)
-                echob "Starting build..."
-                [ -z "$module" ] && module="bacon" || \
-                    echo "You have decided to build $module"
+            live | instrument | mm)
+                echob "Playing live..."
+                [ -z "$instrument" ] && instrument="bandori" || \
+                    echo "You have decided to play $module"
                 # Of course let's check the kitchen
                 lunch $target
                 # Clean if desired
-                [[ "$cleanarg" == "noclean" ]] || make clean
+                [[ "$cleanarg" == "nohype" ]] || make clean
                 # Now start building
                 echo "Using $THREAD_COUNT_BUILD threads for build."
                 if [ "$buildarg" != "mm" ]; then
-                    make --skip-soong-tests -j$THREAD_COUNT_BUILD $module
+                    make --skip-soong-tests -j$THREAD_COUNT_BUILD $instrument
                     return $?
                 else
-                    mmma --skip-soong-tests -j$THREAD_COUNT_BUILD $module
+                    mmma --skip-soong-tests -j$THREAD_COUNT_BUILD $instrument
                     return $?
                 fi
             ;;
 
-            module-list)
+            instrument-list)
                 local bm_result
-                echob "Starting batch build..."
+                echob "Playing multiple instruments..."
                 shift
                 ALL_MODULES_TO_BUILD="$@"
-                [[ "$@" == *"noclean"* ]] || make clean
+                [[ "$@" == *"nohype"* ]] || make clean
                 for module in $ALL_MODULES_TO_BUILD; do
-                    [[ "$module" == "noclean" ]] && continue
+                    [[ "$instrument" == "nohype" ]] && continue
                     echo
-                    echob "Building module $module"
+                    echob "Playing instrument $instrument"
                     echo
-                    build module $TOOL_THIRDARG $module noclean
+                    play instrument $TOOL_THIRDARG $instrument nohype
                     local bm_result=$?
                 done
-                echob "Finished batch build"
+                echob "Finished multiple play"
                 [ $bm_result -ne 0 ] && return $bm_result
             ;;
 
             # Oops.
-            *) echo "Unknown build command \"$TOOL_SUBARG\"." ;;
+            *) echo "Unknown note route \"$TOOL_SUBARG\"." ;;
 
         esac
     fi
@@ -160,14 +160,15 @@ function reposync() {
         slow)       THREADS_REPO=$CPU_COUNT;;
         slower)     THREADS_REPO=$(echo "scale=1; $CPU_COUNT / 2 + 0.5" | bc | cut -d '.' -f1);; # + 0.5 will round
         single)     THREADS_REPO=1          ;;
-        easteregg)  THREADS_REPO=384        ;; # Neil's love
+        easteregg)  THREADS_REPO=384        ;; # Simao@XOS: Neil's love
+        popipa)     THREADS_REPO=1407       ;; # Beru@Kasumi: 14 July, Kasumi's birth
         quiet)      QUIET_ARG="-q"          ;;
         # People might want to get some good help
         -h | --help | h | help | man | halp | idk )
             echo "Usage: reposync <speed> [path]"
             echo "Available speeds are:"
             echo -en "  turbo\n  faster\n  fast\n  auto\n  slow\n" \
-                      " slower\n  single\n  easteregg\n\n"
+                      " slower\n  single\n  easteregg\n  popipa\n\n"
             echo "Path is not necessary. If not supplied, defaults to workspace."
             return 0
         ;;
@@ -276,7 +277,7 @@ function reporesync() {
 
         # Help me!
         "")
-            xostools_help_reporesync
+            tuuru_help_reporesync
             cd $FRSTDIR
             return 0
         ;;
@@ -309,7 +310,7 @@ function reporeset() {
   fi
   echo 'Resetting source tree back to remote state.' \
        'Any unsaved work will be gone.'
-  cd .repo/manifests && git reset --hard m/XOS-12.0
+  cd .repo/manifests && git reset --hard m/kasumi-v1
 
   local TOP="$(gettop)"
 
@@ -351,7 +352,7 @@ EOF
 		if [ -z "$ROM_REVISION" ]
 		then
 			echo -e "\033[1mWarning: unable to determine revision and ROM_REVISION or ROM_VERSION not set! \033[0m"
-			repo_revision="XOS-12.0"
+			repo_revision="kasumi-v1"
 		else
 			echo -e "Note: unable to determine revision, defaulting to $ROM_REVISION"
 			repo_revision="$ROM_REVISION"
@@ -365,7 +366,7 @@ EOF
 	echo "$repodir: resetting and cleaning up untracked files/folders"
 	git rebase --abort 2> /dev/null > /dev/null || git merge --abort 2> /dev/null > /dev/null || git revert --abort 2> /dev/null > /dev/null || git cherry-pick --abort 2> /dev/null > /dev/null || :
     git stash >/dev/null 2>/dev/null || : # :D
-    git reset --hard XOS/$(echo $revision | sed -re 's/^refs\/heads\/(.*)$/\1/') 2>/dev/null || git reset --hard $remote$revision 2> /dev/null || ( [ "$repo_name" != "aosp" ] && git reset --hard XOS/$revision ) 2> /dev/null || git reset --hard $revision 2> /dev/null || git reset --hard
+    git reset --hard yuki-no-git/$(echo $revision | sed -re 's/^refs\/heads\/(.*)$/\1/') 2>/dev/null || git reset --hard $remote$revision 2> /dev/null || ( [ "$repo_name" != "aosp" ] && git reset --hard yuki-no-git/$revision ) 2> /dev/null || git reset --hard $revision 2> /dev/null || git reset --hard
     git clean -fdx || :
     popd
     echo
@@ -420,9 +421,10 @@ function reposterilize() {
     git rebase --abort 2>/dev/null
     git cherry-pick --abort 2>/dev/null
     git reset 2>/dev/null
-    git reset --hard XOS/XOS-12.0 2>/dev/null \
- || git reset --hard github/XOS-12.0 2>/dev/null \
- || git reset --hard gerrit/XOS-12.0 2>/dev/null \
+    git reset --hard yuki-no-git/kasumi-v1 2>/dev/null \
+ || git reset --hard github/lineage-18.1 2>/dev/null \
+ || git reset --hard materium/materium-v1 2>/dev/null \
+ || git reset --hard devices/kasumi-v1 2>/dev/null \
  || git reset --hard 2>/dev/null
     git clean -fd
   done < <(find "$startdir/" -name ".git" -type d)
@@ -434,8 +436,8 @@ function reposterilize() {
 
 function resetmanifest() {
   cd $(gettop)/.repo/manifests
-  git fetch origin XOS-12.0 2>&1 >/dev/null
-  git reset --hard origin/XOS-12.0 2>&1 >/dev/null
+  git fetch origin kasumi-v1 2>&1 >/dev/null
+  git reset --hard origin/kasumi-v1 2>&1 >/dev/null
   cd $(gettop)
 }
 
@@ -447,10 +449,6 @@ function pretty_print_product_packages() {
     print_product_packages | tr " " "\n" | sort -u
 }
 
-source $(gettop)/external/xos/xostools/mergetools.sh
-
-function reticulateOurSplines() {
-    TOP="$(gettop)" bash -i "$(gettop)/external/xos/xostools/scripts/reticulate_our_splines.sh" $@
-}
+source $(gettop)/external/tuuru/kasumi-no-tuuru/mergetools.sh
 
 return 0

@@ -16,27 +16,27 @@
 # limitations under the License.
 
 
-function xostools_help_build() {
+function tuuru_help_play() {
 
 cat <<EOF
-Usage: build <target> [lunch target] [module] [noclean]
+Usage: play <target> [lunch target] [instrument] [nohype]
 
 Targets:
-    full        Full ROM (bacon)
-    module      Build only a specific module
-    module-list Build multiple modules
-    mm          Builds using mmma. Useful for frameworks or modules
-                which you want to build using mmma/mmm/
+    live            "Live on stage" (make bandori)
+    instrument      "Play" only a specific "instrument" (Build only a specific module)
+    instrument-list "Play" multiple "instruments" (Build multiple modules)
+    mm              "Plays" using mmma. Useful for frameworks or "instruments"
+                    which you want to "play" using mmma/mmm/
 
-noclean: use this option to skip cleaning before building
-         this is not accepted on module-list
+nohype: Use this option to "play" directly without "hype" (skip clean before build)
+        This is not accepted on "instrument-list"
 
 You have to specify the lunch target if you haven't lunched yet.
 EOF
 
 }
 
-function xostools_build_no_target_device() {
+function tuuru_build_no_target_device() {
 
 cat <<EOF
 No target device specified and \$TARGET_DEVICE is
@@ -45,7 +45,7 @@ EOF
 
 }
 
-function xostools_help_reporesync() {
+function tuuru_help_reporesync() {
 
 cat <<EOF
 Usage: reporesync <option> [repository path] [repository name] [low]
