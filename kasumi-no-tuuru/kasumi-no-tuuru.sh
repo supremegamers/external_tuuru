@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-echo -e "\033[0mincluding \033[1m\033[38;5;225mカスミ\033[0m\033[1m のツール\033[0m"
+echo -e "\033[0mincluding \033[1m\033[38;5;225mカスミ\033[0m\033[1mのツール\033[0m"
 
 # Get the CPU count
 # CPU count is either your virtual cores when using Hyperthreading
@@ -105,10 +105,10 @@ function play() {
                 # Now start building
                 echo "Using $THREAD_COUNT_BUILD threads for build."
                 if [ "$buildarg" != "mm" ]; then
-                    make --skip-soong-tests -j$THREAD_COUNT_BUILD $instrument
+                    make -j$THREAD_COUNT_BUILD $instrument
                     return $?
                 else
-                    mmma --skip-soong-tests -j$THREAD_COUNT_BUILD $instrument
+                    mmma -j$THREAD_COUNT_BUILD $instrument
                     return $?
                 fi
             ;;
