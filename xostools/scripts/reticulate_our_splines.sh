@@ -67,6 +67,13 @@ for path in ${list[@]}; do
     fi
   fi
 
+  if ! git ls-remote XOS >/dev/null 2>/dev/null; then
+    git remote add XOS https://git.halogenos.org/halogenOS/$repo_name ||
+      git remote set-url XOS https://git.halogenos.org/halogenOS/$repo_name
+  fi
+
+  git remote set-url --push XOS git@git.halogenos.org:halogenOS/$repo_name
+
   echo "Setting upstream remote"
   git remote add upstream $repo_upstream || git remote set-url upstream $repo_upstream
 
@@ -80,12 +87,6 @@ for path in ${list[@]}; do
   echo "Checking out $repo_upstream_rev -> $short_revision"
   git checkout upstream/$repo_upstream_rev -B $short_revision
   $has_createxos && echo "Creating repository (if it doesn't exist)" && createXos || :
-
-  if ! git ls-remote XOS >/dev/null 2>/dev/null; then
-    git remote add XOS https://git.halogenos.org/halogenOS/$repo_name ||
-      git remote set-url XOS https://git.halogenos.org/halogenOS/$repo_name
-    git remote set-url --push XOS ssh://git@git.halogenos.org/halogenOS/$repo_name
-  fi
 
   if [[ ${FORCE_PUSHES} == true ]]; then
     git push XOS HEAD:$ROM_REVISION -f
