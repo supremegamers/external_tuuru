@@ -45,7 +45,9 @@ while read -r path; do
 
     pushd "$path"
 
-    repo checkout $ROM_VERSION || repo start $ROM_VERSION
+    if [[ ${ROM_VERSION} != $(git branch --show-current) ]]; then
+        repo checkout $ROM_VERSION || repo start $ROM_VERSION
+    fi
 
     echo "Setting aosp remote"
     if ! git ls-remote aosp >/dev/null 2>/dev/null; then
