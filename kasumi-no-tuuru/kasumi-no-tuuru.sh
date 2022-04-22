@@ -184,8 +184,9 @@ function reposync() {
     fi
     # Sync!! Use the power of shell scripting!
     echo "Using $THREADS_REPO threads for sync."
-    repo sync -j$THREADS_REPO $QUIET_ARG --force-sync \
-        -c --no-clone-bundle --no-tags $2 $PATH_ARG
+    repo sync $QUIET_ARG --jobs-network=4 --jobs-checkout=$THREADS_REPO \
+        --fail-fast --force-sync -c --no-clone-bundle --no-tags --optimized-fetch \
+        --retry-fetches=10 --prune --no-repo-verify $2 $PATH_ARG
     return $?
 }
 
