@@ -442,6 +442,35 @@ function resetmanifest() {
   cd $(gettop)
 }
 
+function addghforwd() {
+  local testremote=$(git remote -v | grep "git.polycule.co")
+  if [ -z "$testremote" ]; then
+    echo "This tree doesn't have Git-Polycule remote assigned. Abort!"
+    return 1
+  else
+    echo "Adding GitHub remote..."
+    export polyremote=$(git remote get-url $(git remote -v | grep "git.polycule.co" | grep fetch | sed 's/	.*//g'))
+    export reponame=$(echo "$polyremote" | sed 's/.*\//android_/g')
+    git remote add gh https://github.com/ProjectKasumi/"$reponame"
+    echo "Pushing to GitHub..."
+    git push -f gh HEAD:kasumi-v1 || export addghfallback=true && adddevsforwd
+    echo "All done!"
+  fi
+}
+
+function adddevsforwd() {
+  if [ ! "$addghfallback" ]; then
+    echo "This function is meant as a fallback for addghforwd as of now."
+    echo "If you can turn this into a full fledged standalone function, do so and send patch to windowz414@projectkasumi.xyz."
+    return 1
+  else
+    echo "GitHub remote failed, Kasumi-Devices to rescue!"
+    git remote set-url gh https://github.com/Kasumi-Devices/"$reponame"
+    echo "Pushing again..."
+    git push -f gh HEAD:kasumi-v1 || echo "All attempts have failed. Abort!"
+    return 1
+  fi
+}
 function print_product_packages() {
     get_build_var PRODUCT_PACKAGES
 }
