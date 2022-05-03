@@ -471,6 +471,11 @@ function adddevsforwd() {
     return 1
   fi
 }
+
+mirrorAll() {
+  TOP="$(gettop)" bash -i "$(gettop)/external/tuuru/kasumi-no-tuuru/scripts/mirror_all.sh" $@
+}
+
 function print_product_packages() {
     get_build_var PRODUCT_PACKAGES
 }
