@@ -59,7 +59,7 @@ while read path; do
   echo "Merging upstream"
   git merge upstream/$repo_upstream_rev
 
-  git push yuki-no-git HEAD:$ROM_VERSION
+  git push kasumi HEAD:$ROM_VERSION
   popd
 
   echo

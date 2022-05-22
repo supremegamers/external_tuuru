@@ -34,7 +34,7 @@ fi
 
 cd $TOP
 
-repo_revision=$(xmlstarlet sel -t -v "/manifest/remote[@name='yuki-no-git']/@revision" $snippet | sed -re 's/^refs\/heads\/(.*)$/\1/')
+repo_revision=$(xmlstarlet sel -t -v "/manifest/remote[@name='kasumi']/@revision" $snippet | sed -re 's/^refs\/heads\/(.*)$/\1/')
 # provide suffix in env
 tag_to_push="${repo_revision}-$(date '+%Y%m%d_%H%M%S_%Z_%s')${tag_to_push_suffix}"
 if [ ! -z "$1" ]; then
@@ -51,7 +51,7 @@ while read path; do
 
     git tag "${tag_to_push}"
     addYuki
-    git push yuki-no-git "${tag_to_push}"
+    git push kasumu "${tag_to_push}"
 
     echo
     popd

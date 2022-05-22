@@ -367,7 +367,7 @@ EOF
 	echo "$repodir: resetting and cleaning up untracked files/folders"
 	git rebase --abort 2> /dev/null > /dev/null || git merge --abort 2> /dev/null > /dev/null || git revert --abort 2> /dev/null > /dev/null || git cherry-pick --abort 2> /dev/null > /dev/null || :
     git stash >/dev/null 2>/dev/null || : # :D
-    git reset --hard yuki-no-git/$(echo $revision | sed -re 's/^refs\/heads\/(.*)$/\1/') 2>/dev/null || git reset --hard $remote$revision 2> /dev/null || ( [ "$repo_name" != "aosp" ] && git reset --hard yuki-no-git/$revision ) 2> /dev/null || git reset --hard $revision 2> /dev/null || git reset --hard
+    git reset --hard kasumi/$(echo $revision | sed -re 's/^refs\/heads\/(.*)$/\1/') 2>/dev/null || git reset --hard $remote$revision 2> /dev/null || ( [ "$repo_name" != "aosp" ] && git reset --hard kasumi/$revision ) 2> /dev/null || git reset --hard $revision 2> /dev/null || git reset --hard
     git clean -fdx || :
     popd
     echo
@@ -422,7 +422,7 @@ function reposterilize() {
     git rebase --abort 2>/dev/null
     git cherry-pick --abort 2>/dev/null
     git reset 2>/dev/null
-    git reset --hard yuki-no-git/kasumi-v1 2>/dev/null \
+    git reset --hard kasumi/kasumi-v1 2>/dev/null \
  || git reset --hard github/lineage-18.1 2>/dev/null \
  || git reset --hard materium/materium-v1 2>/dev/null \
  || git reset --hard devices/kasumi-v1 2>/dev/null \
