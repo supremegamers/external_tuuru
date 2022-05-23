@@ -21,15 +21,12 @@ if [ "$1" != "--no-reset" ]; then
   reposync fast
 fi
 
-echo "Generating temporary manifest file"
-repo manifest > full-manifest.xml
-
 while read path; do
   echo "$path"
-  repo_name=$(xmlstarlet sel -t -v "/manifest/project[@path='$path']/@name" $TOP/full-manifest.xml)
-  repo_mirror=$(xmlstarlet sel -t -v "/manifest/project[@path='$path']/@mirror" $TOP/full-manifest.xml)
+  repo_name=$(xmlstarlet sel -t -n -v "/manifest/project[@path='$path']/@name" $(find $TOP/.repo/manifests/ -type f | grep "\.xml") | awk NF | uniq)
+  repo_mirror=$(xmlstarlet sel -t -n -v "/manifest/project[@path='$path']/@mirror" $(find $TOP/.repo/manifests/ -type f | grep "\.xml") | awk NF | uniq)
   echo "Mirror target: $repo_mirror"
-  repo_remote=$(xmlstarlet sel -t -v "/manifest/project[@path='$path']/@remote" $TOP/full-manifest.xml)
+  repo_remote=$(xmlstarlet sel -t -n -v "/manifest/project[@path='$path']/@remote" $(find $TOP/.repo/manifests/ -type f | grep "\.xml") | awk NF | uniq)
 
   pushd $TOP/$path
 
@@ -59,10 +56,7 @@ while read path; do
   popd
 
   echo
-done < <(xmlstarlet sel -t -v '/manifest/project[@mirror]/@path' $TOP/full-manifest.xml)
-
-echo "Deleting temporary manifest file"
-rm -f $TOP/full-manifest.xml
+done < <(xmlstarlet sel -t -n -v "/manifest/project[@mirror]/@path" $(find $TOP/.repo/manifests/ -type f | grep "\.xml") | awk NF | uniq)
 
 popd
 
