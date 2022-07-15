@@ -184,7 +184,7 @@ function reposync() {
     fi
     # Sync!! Use the power of shell scripting!
     echo "Using $THREADS_REPO threads for sync."
-    repo sync $QUIET_ARG --jobs-network=4 --jobs-checkout=$THREADS_REPO \
+    repo sync $QUIET_ARG -j$THREADS_REPO \
         --fail-fast --force-sync -c --no-clone-bundle --no-tags --optimized-fetch \
         --retry-fetches=10 --prune --no-repo-verify $2 $PATH_ARG
     return $?
@@ -474,6 +474,10 @@ function adddevsforwd() {
 
 mirrorAll() {
   TOP="$(gettop)" bash -i "$(gettop)/external/tuuru/kasumi-no-tuuru/scripts/mirror_all.sh" $@
+}
+
+emergencyPull() {
+  TOP="$(gettop)" bash -i "$(gettop)/external/tuuru/kasumi-no-tuuru/scripts/emergency_pull.sh" $@
 }
 
 function print_product_packages() {
