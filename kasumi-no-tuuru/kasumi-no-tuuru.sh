@@ -97,9 +97,9 @@ function play() {
             live | instrument | mm)
                 echob "Playing live..."
                 [ -z "$instrument" ] && instrument="bandori" || \
-                    echo "You have decided to play $module"
+                    echo "You have decided to play $instrument"
                 # Of course let's check the kitchen
-                lunch $target
+                lunch $target || return 1
                 # Clean if desired
                 [[ "$cleanarg" == "nohype" ]] || make clean
                 # Now start building
