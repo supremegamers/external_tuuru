@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-echo -e "\033[0mincluding \033[1m\033[38;5;225mカスミ\033[0m\033[1mのツール\033[0m"
+echo -ne "\033[0mincluding \033[1m\033[38;5;225mカスミ\033[0m\033[1mのツール\033[0m\033[0K\r"
 
 # Get the CPU count
 # CPU count is either your virtual cores when using Hyperthreading
