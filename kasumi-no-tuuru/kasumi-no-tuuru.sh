@@ -131,6 +131,12 @@ function play() {
                 [ $bm_result -ne 0 ] && return $bm_result
             ;;
 
+            cd_album)
+              echob "Playing CD Album..."
+              lunch $target
+              make -j$THREAD_COUNT_BUILD iso_img
+            ;;
+
             # Oops.
             *) echo "Unknown note route \"$TOOL_SUBARG\"." ;;
 
